@@ -2,7 +2,7 @@ package TransArray;
 
 import java.util.Arrays;
 import java.util.List;
-
+import Technical.Tech;
 public class TransArray {
 
     public static void main(String[] args) {

@@ -1,5 +1,5 @@
 package ArrayLibrary;
-
+import Technical.Tech;
 import java.util.Arrays;
 
 public class ZeroForward {

@@ -1,10 +1,10 @@
 package MyLinkedList;
-
+import Technical.Tech;
 public class Main {
 
     public static void main(String[] args) {
 
-        MyLinkedList<Integer> i = new MyLinkedList<>();
+        MyLinkedList<Integer> i = new MyLinkedList<Integer>();
 
         System.out.println("Is 'MyArrayList empty?: " + i.isEmpty());
         System.out.println("Fill out the MyArrayList with Integer. Input one by one after 'enter'. Double 'enter' will end the input");

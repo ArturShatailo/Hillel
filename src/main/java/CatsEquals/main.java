@@ -1,4 +1,5 @@
 package CatsEquals;
+import Technical.Tech;
 
 public class main {
 

@@ -1,12 +1,12 @@
 package MyArrayList;
-
+import Technical.Tech;
 import java.util.Arrays;
 
 public class Main{
 
     public static void main(String[] args) {
 
-        MyArrayListGenerics<Integer> i = new MyArrayListGenerics<>();
+        MyArrayListGenerics<Integer> i = new MyArrayListGenerics<Integer>();
 
         System.out.println("Is 'MyArrayList empty?: "+i.isEmpty());
         System.out.println("Fill out the MyArrayList with Integer. Input one by one after 'enter'. Double 'enter' will end the input");
