@@ -1,7 +1,6 @@
 package DriversLicense;
-import java.util.List;
-import java.util.Map;
 
+@FunctionalInterface
 public interface Inspector {
 
     boolean checkDriver(Driver d);

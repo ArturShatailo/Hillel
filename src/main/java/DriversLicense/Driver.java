@@ -44,8 +44,8 @@ public class Driver implements Randomizer<Driver>{
      */
     @Override
     public Driver randomize() {
-        name = names[Tech.getRandom(0, names.length-1)];
-        surname = surnames[Tech.getRandom(0, surnames.length-1)];
+        name = getRandomName();
+        surname = getRandomSurnames();
         idCardNumber = getRandomId(8);
         licenseNumber = getRandomId(6);
         return this;

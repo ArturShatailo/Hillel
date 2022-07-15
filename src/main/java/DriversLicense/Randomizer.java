@@ -30,6 +30,20 @@ public interface Randomizer<T> extends Database{
     }
 
     /*
+     * Gets random String value from 'names' array implemented from Database interface
+     */
+    default String getRandomName() {
+        return names[Tech.getRandom(0, names.length-1)];
+    }
+
+    /*
+     * Gets random String value from 'surnames' array implemented from Database interface
+     */
+    default String getRandomSurnames() {
+        return surnames[Tech.getRandom(0, surnames.length-1)];
+    }
+
+    /*
     * Creates data as a random kit of numbers divided by '-' symbol;
     */
     default String getRandomDate() {

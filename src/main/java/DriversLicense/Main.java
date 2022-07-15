@@ -3,12 +3,7 @@ import Technical.Tech;
 
 public class Main implements Database {
 
-    static Inspector i = new Inspector() {
-        @Override
-        public boolean checkDriver(Driver d) {
-            return d.getFines().isEmpty() && d.getIdCardNumber() != null && d.getLicenseNumber() != null;
-        }
-    };
+    static Inspector i = d -> d.getFines().isEmpty() && d.getIdCardNumber() != null && d.getLicenseNumber() != null;
 
     public static void main(String[] args) {
 

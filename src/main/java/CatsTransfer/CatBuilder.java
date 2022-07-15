@@ -12,7 +12,7 @@ public class CatBuilder implements Database{
                 cities[Tech.getRandom(0, cities.length-1)],
                 streetTypes[Tech.getRandom(0, streetTypes.length-1)],
                 streetNames[Tech.getRandom(0, streetNames.length-1)],
-                String.valueOf(Tech.getRandom(0, 200)));
+                String.valueOf(Tech.getRandom(1, 200)));
     }
 
     /*

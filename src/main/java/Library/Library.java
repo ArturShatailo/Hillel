@@ -31,7 +31,7 @@ public class Library implements Librarian{
     }
 
     /*
-    * Checks if there ara Book objects in 'books' Set collection field with 'author' field equals to @param String a
+    * Checks if there are Book objects in 'books' Set collection field with 'author' field equals to @param String a
     * Returns false if absent;
     */
     @Override
