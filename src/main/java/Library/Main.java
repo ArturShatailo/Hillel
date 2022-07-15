@@ -11,7 +11,7 @@ public class Main {
         l.reviewDatabase();
 
         //Getting user's choice
-        System.out.println("Input author name please");
+        System.out.println("Input author name please (Stephen King, Ernest Hemingway, George Orwell)");
         String author = Tech.GetInputStringFunction();
 
         //Validation of user's input and if it's correct, displaying Set collection of Book objects as a result
