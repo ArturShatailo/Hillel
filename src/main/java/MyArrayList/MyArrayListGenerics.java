@@ -1,12 +1,23 @@
 package MyArrayList;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 
 public class MyArrayListGenerics<T> implements MyListGenerics<T> {
 
     private T [] array = (T[]) new Object[0];
+
+    public boolean addAll(Collection<? extends T> c) {
+        T [] a = (T[]) c.toArray();
+        T [] arrayNew = (T[]) new Object[array.length + a.length];
+        System.arraycopy(array, 0, arrayNew, 0, array.length);
+        System.arraycopy(a, 0, array, array.length, a.length);
+
+        array = arrayNew;
+        return true;
+    }
 
     public void setArray(T[] a) {
         this.array = a;
@@ -81,6 +92,30 @@ public class MyArrayListGenerics<T> implements MyListGenerics<T> {
             System.out.println("There is no index "+i+" in List");
             return null;
         }
+    }
+
+    @Override
+    public int indexOf(T o) {
+        return indexOfRange(o, 0, array.length);
+    }
+
+    @Override
+    public int indexOfRange(T o, int start, int end) {
+        Object[] es = array;
+        if (o == null) {
+            for (int i = start; i < end; i++) {
+                if (es[i] == null) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i = start; i < end; i++) {
+                if (o.equals(es[i])) {
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 
     @Override

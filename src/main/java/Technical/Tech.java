@@ -1,5 +1,9 @@
 package Technical;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Tech {
@@ -30,4 +34,23 @@ public class Tech {
         return Math.ceil(a * b) / b;
     }
 
+    public static List<String> readFileToString(String url) {
+
+        List<String> l = new ArrayList<>();
+
+        try {
+            File file = new File(url);
+            Scanner scan = new Scanner(file);
+
+            while (scan.hasNextLine())
+                l.add(scan.nextLine());
+
+            scan.close();
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        return l;
+    }
 }

@@ -1,10 +1,17 @@
 package MyArrayList;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface MyListGenerics<T> {
 
     void add(T E);
+
+    int indexOf(T o);
+
+    int indexOfRange(T o, int start, int end);
+
+    boolean addAll(Collection<? extends T> c);
 
     boolean add(int i, T E);
 
