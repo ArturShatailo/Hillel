@@ -8,6 +8,8 @@ public interface MyMap<Integer, V> {
 
     int size();
 
+    MyTreeMap.Item<Integer, V> delete(Integer key);
+
     MyTreeMap.Item<Integer, V> update(Integer key, V value);
 
 }

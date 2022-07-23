@@ -1,7 +1,7 @@
 package MyTreeMap;
 import java.util.*;
 
-public class MyTreeMap<Integer,V> implements MyNavigableMap<Integer,V>, MyMap<Integer, V>, java.io.Serializable {
+public class MyTreeMap<Integer,V> implements MyNavigableMap<Integer,V>, MyMap<Integer, V>{
 
     //root field contains the root element of tree (the starting)
     private transient Item<Integer, V> root;
@@ -220,6 +220,7 @@ public class MyTreeMap<Integer,V> implements MyNavigableMap<Integer,V>, MyMap<In
      * @param key requested 'key' to find Item object has to be deleted.
      * @return Item object that has been deleted or null in case of there is no such 'key' as in @param key requested.
      */
+    @Override
     public Item<Integer, V> delete(Integer key){
 
         Item<Integer, V> current = getItemByKey(key);
@@ -234,7 +235,7 @@ public class MyTreeMap<Integer,V> implements MyNavigableMap<Integer,V>, MyMap<In
 
         Item<Integer, V> newI = new Item<>(lower.key, lower.value, current.parent);
 
-        if(isLeft(current)){
+        if(compareKeys(root.key, current.key) > 0/*isLeft(current)*/){
 
             if(current.right.equals(lower) && lower.right == null){
                 newI.setRight(null);
@@ -251,21 +252,20 @@ public class MyTreeMap<Integer,V> implements MyNavigableMap<Integer,V>, MyMap<In
 
             current.right.setParent(newI);
             current.left.setParent(newI);
-
+/*
             if(current.right.left != null){
                 if(current.right.left.equals(lower) && current.right.left.right == null){
-                    current.right.setRight(null);
+                    current.right.setLeft(null);
                 } else {
                     if(current.right.left.right != null) {
-                        System.out.println(current.right.left.right);
                         current.right.left.right.setParent(current.right);
                         current.right.setLeft(current.right.left.right);
                     }
                 }
-            }
+            }*/
 
         } else {
-
+            System.out.println("kk");
             if(current.right.equals(lower) && lower.right == null){
                 newI.setRight(null);
             } else {
@@ -276,20 +276,19 @@ public class MyTreeMap<Integer,V> implements MyNavigableMap<Integer,V>, MyMap<In
             current.parent.setRight(newI);
             current.right.setParent(newI);
             current.left.setParent(newI);
-
+/*
             if(current.right.left != null){
                 if(current.right.left.equals(lower) && current.right.left.right == null){
-                    //current.right.setLeft(null); ??
+                    //current.right.setLeft(null);
                 } else {
                     if(current.right.left.right != null) {
                         current.right.left.right.setParent(current.right);
                         current.right.setLeft(current.right.left.right);
                     }
                 }
-            }
+            }*/
         }
         deleteOneChildItem(lower);
-        checkPositions(newI);
         return current;
     }
 
@@ -322,7 +321,7 @@ public class MyTreeMap<Integer,V> implements MyNavigableMap<Integer,V>, MyMap<In
         lower.setLeft(root.left);
         lower.setRight(root.right);
         root = lower;
-        checkPositions(root);
+        checkPositionsDelete(root);
         size--;
         return r;
     }
@@ -362,7 +361,7 @@ public class MyTreeMap<Integer,V> implements MyNavigableMap<Integer,V>, MyMap<In
             else
                 i.parent.setRight(null);
 
-            checkPositions(i);
+            checkPositionsDelete(i);
             size--;
             return i;
         }
@@ -378,7 +377,7 @@ public class MyTreeMap<Integer,V> implements MyNavigableMap<Integer,V>, MyMap<In
             else
                 i.parent.setRight(i.right);
         }
-        checkPositions(i);
+        checkPositionsDelete(i);
         size--;
         return i;
     }
@@ -389,12 +388,13 @@ public class MyTreeMap<Integer,V> implements MyNavigableMap<Integer,V>, MyMap<In
      * @return True if @param 'i' Item object is placed in the 'left' field of parent Item object.
      */
     private boolean isLeft(Item<Integer,V> i) {
+        if(i.parent.left == null) return false;
         return i.parent.left.equals(i);
     }
 
     /**
      * Creates new Item object and fills its fields out with values received in method parameters.
-     * Class method checkPosition to check colors and make turns or colors change if needed to save the tree rules.
+     * Calls method checkPositionsInsert to check colors and make rotates or colors changes if needed to save the tree rules.
      *
      * @param key 'key' value of 'key-value' pair of Item object
      * @param value 'value' value of 'key-value' pair of Item object
@@ -411,7 +411,7 @@ public class MyTreeMap<Integer,V> implements MyNavigableMap<Integer,V>, MyMap<In
             parent.right = item;
         }
 
-        checkPositions(item);
+        checkPositionsInsert(item);
         size++;
     }
 
@@ -422,9 +422,9 @@ public class MyTreeMap<Integer,V> implements MyNavigableMap<Integer,V>, MyMap<In
      * The next methods colorOf(), parentOf(), setColor(), leftOf(), rightOf() are methods helpers that allows get requested data
      * in null safety way.
      *
-     * @param item Item object that has been inserted or deleted
+     * @param item Item object that has been inserted
      */
-    private void checkPositions(Item<Integer, V> item) {
+    private void checkPositionsInsert(Item<Integer, V> item) {
 
         item.color = WHITE;
 
@@ -530,6 +530,77 @@ public class MyTreeMap<Integer,V> implements MyNavigableMap<Integer,V>, MyMap<In
     }
 
     /**
+     * Checks colors of siblings and parent elements. The methods of balancing are copied from the initial TreeMap class
+     *
+     * The next methods colorOf(), parentOf(), setColor(), leftOf(), rightOf() are methods helpers that allows get requested data
+     * in null safety way.
+     *
+     * @param item Item object that has been deleted
+     */
+    private void checkPositionsDelete(Item<Integer,V> item) {
+        while (item != root && colorOf(item) == BLACK) {
+            if (item == leftOf(parentOf(item))) {
+                Item<Integer,V> sib = rightOf(parentOf(item));
+
+                if (colorOf(sib) == WHITE) {
+                    setColor(sib, BLACK);
+                    setColor(parentOf(item), WHITE);
+                    rotateLeft(parentOf(item));
+                    sib = rightOf(parentOf(item));
+                }
+
+                if (colorOf(leftOf(sib))  == BLACK &&
+                        colorOf(rightOf(sib)) == BLACK) {
+                    setColor(sib, WHITE);
+                    item = parentOf(item);
+                } else {
+                    if (colorOf(rightOf(sib)) == BLACK) {
+                        setColor(leftOf(sib), BLACK);
+                        setColor(sib, WHITE);
+                        rotateRight(sib);
+                        sib = rightOf(parentOf(item));
+                    }
+                    setColor(sib, colorOf(parentOf(item)));
+                    setColor(parentOf(item), BLACK);
+                    setColor(rightOf(sib), BLACK);
+                    rotateLeft(parentOf(item));
+                    item = root;
+                }
+            } else { // symmetric
+                Item<Integer,V> sib = leftOf(parentOf(item));
+
+                if (colorOf(sib) == WHITE) {
+                    setColor(sib, BLACK);
+                    setColor(parentOf(item), WHITE);
+                    rotateRight(parentOf(item));
+                    sib = leftOf(parentOf(item));
+                }
+
+                if (colorOf(rightOf(sib)) == BLACK &&
+                        colorOf(leftOf(sib)) == BLACK) {
+                    setColor(sib, WHITE);
+                    item = parentOf(item);
+                } else {
+                    if (colorOf(leftOf(sib)) == BLACK) {
+                        setColor(rightOf(sib), BLACK);
+                        setColor(sib, WHITE);
+                        rotateLeft(sib);
+                        sib = leftOf(parentOf(item));
+                    }
+                    setColor(sib, colorOf(parentOf(item)));
+                    setColor(parentOf(item), BLACK);
+                    setColor(leftOf(sib), BLACK);
+                    rotateRight(parentOf(item));
+                    item = root;
+                }
+            }
+        }
+
+        setColor(item, BLACK);
+    }
+
+
+    /**
      * Compares two received 'key' values converting them into String and then into int values to use '<' operator;
      *
      * @param key the first Integer elements to compare
@@ -559,6 +630,7 @@ public class MyTreeMap<Integer,V> implements MyNavigableMap<Integer,V>, MyMap<In
         Item<Integer, V> rootElement = new Item<>(key, value, null);
         rootElement.setColor(BLACK);
         root = rootElement;
+        checkPositionsInsert(rootElement);
         size++;
         return value;
     }

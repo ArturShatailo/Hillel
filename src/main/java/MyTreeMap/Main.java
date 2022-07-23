@@ -5,19 +5,21 @@ public class Main {
     public static void main(String[] args) {
         MyTreeMap<Integer, String> a = new MyTreeMap<Integer, String>();
 
-        a.insert(14, "a");
+        a.insert(16, "a");
         a.insert(50, "n");
         a.insert(25, "b");
         a.insert(30, "c");
-        a.insert(11, "y");
-        a.insert(12, "k");
-        a.insert(5, "o");
+        a.insert(13, "y");
+        a.insert(14, "k");
+        a.insert(6, "o");
         a.insert(4, "r");
         a.insert(1, "l");
-        a.insert(15, "m");
+        a.insert(17, "m");
         a.insert(28, "q");
-        a.insert(9, "n");
-        a.insert(10, "n");
+        a.insert(9, "t");
+        a.insert(12, "w");
+        a.insert(5, "j");
+        a.insert(11, "c");
 
         a.printTree();
 
@@ -51,8 +53,8 @@ public class Main {
         a.delete(25);
         a.printTree();
 
-        System.out.println("delete(5) method demonstration: ");
-        a.delete(5);
+        System.out.println("delete(6) method demonstration: ");
+        a.delete(6);
         a.printTree();
 
     }
